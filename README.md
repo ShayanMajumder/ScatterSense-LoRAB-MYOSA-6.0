@@ -12,11 +12,10 @@ LoRAB  is an ultra-low-power wireless tag. Instead of generating its own radio s
 **What it does:** Sends data wirelessly with no RF transmitter of its own.
 **How it works:** MYOSA I2S outputs a sampled square-wave chirp → drives an ADG919 RF switch → switch toggles antenna impedance → ambient FM carrier is reflected with CSS modulation → SDR receiver decodes it.
 **Who it's for:** Ultra-low-power IoT / sensor nodes, RFID-style tags, long-lifetime deployments.
-**Problem it solves:** Traditional radios burn milliwatts in the power amplifier. This tag skips the PA entirely and runs at **17.6 uW**, reaching **150 m**.
+**Problem it solves:** Traditional radios burn milliwatts in the power amplifier. This tag skips the PA entirely and runs at **130 nA** front end power consumption, reaching **150 m**.
 
 **Key features:**
 * Fully-digital CSS chirp generation — no DAC, no VCO
-* 17.6 uW average tag power (9.8 uA @ 1.8 V, 1% duty cycle)
 * 150 m measured range
 * Two-component tag: MYOSA board + RF switch
 * MISO receiver using multiple ambient FM stations for robustness
@@ -70,7 +69,7 @@ The MYOSA board samples an analog CSS chirp in the digital domain and stores the
 
 ### 2. DMA-Driven, CPU-Asleep Operation
 
-A Direct Memory Access (DMA) controller autonomously feeds lookup-table samples to the I2S peripheral, so the CPU stays mostly asleep during transmission. This is the main reason the tag hits **17.6 uW**. Deep-sleep current stays below 1 uA between packets.
+A Direct Memory Access (DMA) controller autonomously feeds lookup-table samples to the I2S peripheral, so the CPU stays mostly asleep during transmission. Deep-sleep current stays below 1 uA between packets.
 
 ### 3. Impedance-Modulated Backscatter Front-End
 
@@ -84,7 +83,6 @@ The receiver captures a **6 MHz chunk** with an Airspy Mini SDR (~$100), isolate
 
 * **Range:** 150 m
 * **Bit rate:** 273 bps
-* **Power:** 17.6 uW (9.8 uA @ 1.8 V)
 * Outdoor SF 7, CR 4/8 packets decoded at SNR −10.83 dB
 
 ---
