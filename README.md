@@ -6,7 +6,7 @@
 
 **Submission Date:** August 25, 2026
 
-*Ultra-low-power, chip-free, transmitter-free wireless sensing, powered entirely by ambient FM radio.*
+*Ultra-low-power, transmitter-free wireless sensing, powered entirely by ambient FM radio.*
 
 </div>
 
@@ -44,7 +44,7 @@
 
 LoRAB is an **ultra-low-power wireless tag**. Instead of generating its own radio signal, it **reflects existing ambient FM radio broadcasts** and modulates data onto them by switching an antenna between two impedance states (backscatter). The clever part: it produces **Chirp Spread Spectrum (CSS / LoRa-style) chirps entirely in the digital domain**, using the MYOSA board's **I<sup>2</sup>S peripheral** to drive an RF switch, no Digital-to-Analog Converter (DAC) and no Voltage-Controlled Oscillator (VCO).
 
-Because the backscattered data rides on top of an existing ambient FM carrier rather than being transmitted on its own dedicated frequency, it is **hidden inside the FM music itself**, the tag never emits a signal of its own that a conventional receiver could detect or flag as anomalous. This makes the link **covert and unintercepted** to anyone not specifically decoding for the CSS chirp pattern buried in the broadcast.
+Because the backscattered data rides on top of an existing ambient FM carrier rather than being transmitted on its own dedicated frequency, it is **hidden inside the FM music itself**, the tag never emits a signal of its own that a conventional receiver could detect or flag as anomalous.
 
 | | |
 |---|---|
