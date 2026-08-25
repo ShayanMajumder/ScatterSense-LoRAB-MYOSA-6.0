@@ -3,19 +3,15 @@
 
 ---
 
-## Acknowledgements
 
-Based on our previous peer-reviewed papers "All-Digital CSS Ambient Backscatter with 17.6 uW Power Consumption and a MISO Receiver" (2026 IEEE International MTT Symposia) and "The New Era of Long-Range “Zero-Interception” Ambient Backscattering Systems: 130 m with 130 nA Front-End Consumption" (2022 Sensors Journal). Thanks to the FM-backscatter and LoRa research community, and to the open-source SDR ecosystem (GNU Radio, Airspy). This MYOSA build ports the original nRF52833 tag to the MYOSA board. Thanks to my supervisor Dr. Spyridon N. Daskalakis, who has made this work possible.
-
----
 
 ## Overview
 
-LoRAB  is an ultra-low-power, battery-free wireless tag. Instead of generating its own radio signal, it **reflects existing ambient FM radio broadcasts** and modulates data onto them by switching an antenna between two impedance states (backscatter). The clever part: it produces **Chirp Spread Spectrum (CSS / LoRa-style) chirps entirely in the digital domain**, using the MYOSA board's **I2S peripheral** to drive an RF switch — no Digital-to-Analog Converter (DAC) and no Voltage-Controlled Oscillator (VCO).
+LoRAB  is an ultra-low-power wireless tag. Instead of generating its own radio signal, it **reflects existing ambient FM radio broadcasts** and modulates data onto them by switching an antenna between two impedance states (backscatter). The clever part: it produces **Chirp Spread Spectrum (CSS / LoRa-style) chirps entirely in the digital domain**, using the MYOSA board's **I2S peripheral** to drive an RF switch — no Digital-to-Analog Converter (DAC) and no Voltage-Controlled Oscillator (VCO).
 
 **What it does:** Sends data wirelessly with no RF transmitter of its own.
 **How it works:** MYOSA I2S outputs a sampled square-wave chirp → drives an ADG919 RF switch → switch toggles antenna impedance → ambient FM carrier is reflected with CSS modulation → SDR receiver decodes it.
-**Who it's for:** Battery-free IoT / sensor nodes, RFID-style tags, long-lifetime deployments.
+**Who it's for:** Ultra-low-power IoT / sensor nodes, RFID-style tags, long-lifetime deployments.
 **Problem it solves:** Traditional radios burn milliwatts in the power amplifier. This tag skips the PA entirely and runs at **17.6 uW**, reaching **150 m**.
 
 **Key features:**
@@ -66,7 +62,7 @@ A high-quality MP4 version with the sound of FM music is available at `Video/lor
 
 ---
 
-## Features (Detailed)
+## Features
 
 ### 1. All-Digital CSS Chirp Generation (no DAC / no VCO)
 
@@ -89,7 +85,6 @@ The receiver captures a **6 MHz chunk** with an Airspy Mini SDR (~$100), isolate
 * **Range:** 150 m
 * **Bit rate:** 273 bps
 * **Power:** 17.6 uW (9.8 uA @ 1.8 V)
-* **Best BER:** minimum at SF 7 / SF 8
 * Outdoor SF 7, CR 4/8 packets decoded at SNR −10.83 dB
 
 ---
@@ -126,7 +121,7 @@ def decode_css(iq_6mhz):
 * **ADG919 SPDT RF switch** — impedance-modulated backscatter front-end
 * **Airspy Mini SDR** — 6 MHz capture receiver
 * **GNU Radio** — channelization + FM-stereo demodulation
-* **Python / MATLAB** — correlation-based CSS decoder
+* **Python** — correlation-based CSS decoder
 
 ---
 
@@ -138,12 +133,39 @@ Receiver-side dependencies:
 
 Install **Python**, **GNU Radio** and **Airspy** host tools (via your OS package manager). Firmware for the MYOSA board is built with the standard MYOSA / MCU toolchain.
 
+Transmit-Side:
+
+Just an **ADG919 SPDT** Switch
+
 ---
 
+## File Structure
+
+```
+/lorab-myosa
+  ├─ lorab-myosa.md
+  ├─ Figures/
+  │   ├─ lorab-architecture.png
+  │   ├─ tag-real-life.jpg
+  │   ├─ digital-chirp.png
+  │   ├─ css-frame-spectrum.png
+  │   └─ range-map.png
+  └─ Video/
+      ├─ lorab-myosa-demo.gif
+      └─ lorab-myosa-demo.mp4
+```
+
+---
+
+## Acknowledgements
+
+Based on our previous peer-reviewed papers "All-Digital CSS Ambient Backscatter with 17.6 uW Power Consumption and a MISO Receiver" (2026 IEEE International MTT Symposia) and "The New Era of Long-Range “Zero-Interception” Ambient Backscattering Systems: 130 m with 130 nA Front-End Consumption" (2022 Sensors Journal). Thanks to the FM-backscatter and LoRa research community, and to the open-source SDR ecosystem (GNU Radio, Airspy). This MYOSA build ports the original nRF52833 tag to the MYOSA board. Thanks to my supervisor Dr. Spyridon N. Daskalakis, who has made this work possible.
+
+---
 
 ## Appendix: Backscatter vs Active Bluetooth Front-End Power
 
-A core reason this tag is battery-free is that the **backscatter front-end** does not synthesize or amplify RF. It only reflects an existing ambient carrier. Compare the RF front-end cost against an active BLE radio transmitting at +8 dBm:
+A core reason this tag is ultra-low-power is that the **backscatter front-end** does not synthesize or amplify RF. It only reflects an existing ambient carrier. Compare the RF front-end cost against an active BLE radio transmitting at +8 dBm:
 
 | Front-end | Supply | Current | Power | Notes |
 |---|---|---|---|---|
